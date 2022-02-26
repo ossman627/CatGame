@@ -1,0 +1,14 @@
+﻿Main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "_glfwInit" in Funktion "_main".
+Main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "_glfwTerminate" in Funktion "_main".
+Main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "_glfwCreateWindow" in Funktion "_main".
+Main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "_glfwWindowShouldClose" in Funktion "_main".
+Main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "_glfwPollEvents" in Funktion "_main".
+Main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "_glfwMakeContextCurrent" in Funktion "_main".
+Main.obj : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "_glfwSwapBuffers" in Funktion "_main".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp____glewBindBuffer".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp____glewBufferData".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp____glewGenBuffers".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp____glewEnableVertexAttribArray".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp____glewVertexAttribPointer".
+E:\Schule\Studium\Master\MasterThesis\CatGame\Game\GameSolution\Dependencies\GLFW\lib-vc2022\glfw3.lib : warning LNK4272: Bibliothekcomputertyp "x64" steht in Konflikt mit dem Zielcomputertyp "x86"
+E:\Schule\Studium\Master\MasterThesis\CatGame\Game\Debug\GameSolution.exe : fatal error LNK1120: 12 nicht aufgelöste Externe

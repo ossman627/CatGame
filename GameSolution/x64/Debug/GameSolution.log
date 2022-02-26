@@ -1,0 +1,7 @@
+﻿LINK : warning LNK4098: Standardbibliothek "MSVCRT" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewBindBuffer".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewBufferData".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewGenBuffers".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewEnableVertexAttribArray".
+Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewVertexAttribPointer".
+E:\Schule\Studium\Master\MasterThesis\CatGame\Game\x64\Debug\GameSolution.exe : fatal error LNK1120: 5 nicht aufgelöste Externe
