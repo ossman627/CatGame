@@ -30,12 +30,19 @@ int main(void)
 	if (!glfwInit())
 		return -1;
 
+
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(1024, 768, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
 		return -1;
+	}
+
+	glfwMakeContextCurrent(window);
+
+	if (glewInit() != GLEW_OK) {
+		std::cout << "error" << std::endl;
 	}
 
 	//sicher gehen das es funktioniert hier der Code der später in Klassen aufgeteilt wird
@@ -58,8 +65,9 @@ int main(void)
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+
 	/* Make the window's context current */
-	glfwMakeContextCurrent(window);
+
 
 	//std::string source = getShaderSource("blub");
 	/* Loop until the user closes the window */

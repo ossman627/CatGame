@@ -4,4 +4,5 @@ Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewBuffer
 Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewGenBuffers".
 Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewEnableVertexAttribArray".
 Main.obj : error LNK2001: Nicht aufgelöstes externes Symbol "__imp___glewVertexAttribPointer".
+E:\Schule\Studium\Master\MasterThesis\CatGame\Game\GameSolution\Dependencies\GLEW\lib\Release\Win32\glew32s.lib : warning LNK4272: Bibliothekcomputertyp "x86" steht in Konflikt mit dem Zielcomputertyp "x64"
 E:\Schule\Studium\Master\MasterThesis\CatGame\Game\x64\Debug\GameSolution.exe : fatal error LNK1120: 5 nicht aufgelöste Externe
