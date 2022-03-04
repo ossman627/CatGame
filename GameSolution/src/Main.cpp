@@ -5,22 +5,88 @@
 #include <string>
 #include <fstream>
 
-/*
+
 template<typename T>
 static void LOG(T value) {
 	std::cout << value << std::endl;
 }
 
-*/
-/*
-static std::string getShaderSource(const char* shader) {
-	std::string source;
+static std::string getShaderSource(std::fstream& file) {
+	std::string source = "";
+	std::string line;
+
+	while (true) {					//Endlos schleife, wird von break beendet
+		std::getline(file, line);
+		if (line == "#Ende") {
+			break;
+		}
+		source += line + "\n";
+	}
+	return source;
+
+}
+
+static std::string findAndGetShaderSource(const char* shaderType) {
+	std::string source = "";
+	std::string line;
+	bool finish = false;
 	std::fstream shaderFile("Resources/Shader.shader", std::ifstream::in);
-	LOG(shaderFile.is_open());
+
+	while (!shaderFile.eof() && finish == false) {
+		std::getline(shaderFile, line);
+		if (std::strcmp(line.c_str(), shaderType) == 0) {
+			source = getShaderSource(shaderFile);
+			finish = true;
+		}
+	}
 
 	return source;
 }
-*/
+
+static unsigned int compileShader(unsigned int type, const char* typeOfSource)
+{
+	unsigned int shaderId = glCreateShader(type);
+
+	//In 2 Schritten: 1)Source in String speichern, 2) Dan in Char umwandeln.
+	//findAndGetShaderSource(typeOfSource).c_str(); verursacht fehler
+	std::string tempSource = (findAndGetShaderSource(typeOfSource));
+	const char* source = tempSource.c_str();
+	glShaderSource(shaderId, 1, &source, nullptr);
+	glCompileShader(shaderId);
+
+	//Fehler handling
+	int result;
+	glGetShaderiv(shaderId, GL_COMPILE_STATUS, &result);
+	if (result == GL_FALSE) {
+		int length;
+		glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &length);
+		char* message = (char*)alloca(length * sizeof(char));
+		glGetShaderInfoLog(shaderId, length, &length, message);
+
+		std::cout << "Failed to compile" << (type == GL_VERTEX_SHADER ? "Vertex" : "fragment") << std::endl;
+		std::cout << message << std::endl;
+		glDeleteShader(shaderId);
+		return 0;
+	}
+	return shaderId;
+}
+
+static unsigned int createShader(const char* vertexShaderType, const char* fragmentShaderType)
+{
+	unsigned int program = glCreateProgram();
+	unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderType);
+	unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderType);
+
+	glAttachShader(program, vertexShader);
+	glAttachShader(program, fragmentShader);
+	glLinkProgram(program);
+	glValidateProgram(program);
+
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
+	return program;
+}
 
 int main(void)
 {
@@ -63,18 +129,25 @@ int main(void)
 	glBindBuffer(GL_ARRAY_BUFFER, VB);
 	glBufferData(GL_ARRAY_BUFFER, 2 * 4 * sizeof(float), rectAngle, GL_STATIC_DRAW);
 
+	glGenBuffers(1, &IB);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 2 * 3 * sizeof(float), indexArray, GL_STATIC_DRAW);
+
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
 	/* Make the window's context current */
 
 
-	//std::string source = getShaderSource("blub");
+	unsigned int shaderProgram = createShader("#defaultVertexShader", "#defaultFragmentShader");
+	glUseProgram(shaderProgram);
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

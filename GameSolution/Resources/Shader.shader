@@ -1,6 +1,5 @@
-#VertexShader
+#defaultVertexShader
 #version 330 core
-
 layout(location = 0) in vec4 aPos;
 //layout(location = 1) in vec2 aTextCoords;
 
@@ -18,10 +17,10 @@ void main()
 	//gl_Position = scale * vec4(aPos.x + move.x, aPos.y + move.y, 0.0f, 1.0f);
 
 };
+#Ende
 
-#FragmentShader
+#defaultFragmentShader
 #version 330 core
-
 out vec4 FragColor;
 //in vec2 textCoords;
 //uniform sampler2D ourTexture;
