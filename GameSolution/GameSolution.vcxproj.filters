@@ -18,16 +18,22 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\cppFiles\Shader.cpp">
+    <ClCompile Include="src\cpp\Shader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\std_image.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\hFiles\Shader.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
+    <None Include="Resources\Shader.shader" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shader.shader" />
+    <ClInclude Include="src\header\Shader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\stb_image.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

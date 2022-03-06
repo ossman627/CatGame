@@ -153,14 +153,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\cppFiles\Shader.cpp" />
+    <ClCompile Include="src\cpp\Shader.cpp" />
+    <ClCompile Include="src\cpp\std_image.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\hFiles\Shader.h" />
+    <ClInclude Include="src\header\Shader.h" />
+    <ClInclude Include="src\header\stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

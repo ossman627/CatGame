@@ -4,7 +4,11 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "header/stb_image.h"
 
+
+static unsigned int texturBuffer;
+static int spriteHeight, spriteWidth, nrChannels;
 
 template<typename T>
 static void LOG(T value) {
@@ -88,6 +92,29 @@ static unsigned int createShader(const char* vertexShaderType, const char* fragm
 	return program;
 }
 
+static void loadSprite() {
+	stbi_set_flip_vertically_on_load(1);
+	glGenTextures(1, &texturBuffer);
+	glBindTexture(GL_TEXTURE_2D, texturBuffer);
+	// set the texture wrapping/filtering options (on the currently bound texture object)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// load and generate the texture
+
+	unsigned char* data = stbi_load("Resources/Bilder/Katze.png", &spriteWidth, &spriteHeight, &nrChannels, 4);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, spriteWidth, spriteHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+}
+
 int main(void)
 {
 	GLFWwindow* window;
@@ -112,11 +139,11 @@ int main(void)
 	}
 
 	//sicher gehen das es funktioniert hier der Code der später in Klassen aufgeteilt wird
-	float rectAngle[2 * 4] = {
-		0.5f, 0.5f,			//oben rechts
-		0.5f, -0.5f,		//unten rechts
-		-0.5f, -0.5f,		//unten links
-		-0.5f, 0.5f			//oben Links
+	float rectAngle[4 * 4] = {
+		0.5f, 0.5f, 1.0f, 1.0f,			//oben rechts
+		0.5f, -0.5f,1.0f, 0.0f,			//unten rechts
+		-0.5f, -0.5f,0.0f, 0.0f,		//unten links
+		-0.5f, 0.5f, 0.0f, 1.0f			//oben Links
 	};
 
 	unsigned int indexArray[2 * 3] = {
@@ -127,20 +154,25 @@ int main(void)
 
 	glGenBuffers(1, &VB);
 	glBindBuffer(GL_ARRAY_BUFFER, VB);
-	glBufferData(GL_ARRAY_BUFFER, 2 * 4 * sizeof(float), rectAngle, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * 4 * sizeof(float), rectAngle, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &IB);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 2 * 3 * sizeof(float), indexArray, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
 	/* Make the window's context current */
 
 
 	unsigned int shaderProgram = createShader("#defaultVertexShader", "#defaultFragmentShader");
 	glUseProgram(shaderProgram);
+	loadSprite();
+	glUniform1i(glGetUniformLocation(shaderProgram, "ourTexture"), 0);
+	glActiveTexture(GL_TEXTURE0);
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
