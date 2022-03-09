@@ -6,6 +6,10 @@
 #include <fstream>
 #include "header/stb_image.h"
 
+#include "glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 static unsigned int texturBuffer;
 static int spriteHeight, spriteWidth, nrChannels;
@@ -137,13 +141,14 @@ int main(void)
 	if (glewInit() != GLEW_OK) {
 		std::cout << "error" << std::endl;
 	}
-
+	loadSprite();
+	float height = 72.0f, width = 128.0f;
 	//sicher gehen das es funktioniert hier der Code der später in Klassen aufgeteilt wird
 	float rectAngle[4 * 4] = {
-		0.5f, 0.5f, 1.0f, 1.0f,			//oben rechts
-		0.5f, -0.5f,1.0f, 0.0f,			//unten rechts
-		-0.5f, -0.5f,0.0f, 0.0f,		//unten links
-		-0.5f, 0.5f, 0.0f, 1.0f			//oben Links
+		0.2f, 0.2f,	  width / spriteWidth, 1.0f,//oben rechts
+		0.2f, -0.2f,  width / spriteWidth, (spriteHeight - height) / spriteHeight,//unten rechts
+		-0.2f, -0.2f, 0.0f, (spriteHeight - height) / spriteHeight,//unten links
+		-0.2f, 0.2f,  0.0f, 1.0f//oben Links
 	};
 
 	unsigned int indexArray[2 * 3] = {
@@ -170,22 +175,33 @@ int main(void)
 
 	unsigned int shaderProgram = createShader("#defaultVertexShader", "#defaultFragmentShader");
 	glUseProgram(shaderProgram);
-	loadSprite();
 	glUniform1i(glGetUniformLocation(shaderProgram, "ourTexture"), 0);
 	glActiveTexture(GL_TEXTURE0);
 	/* Loop until the user closes the window */
+	glm::vec2 render(0, width);
+	int i = 0;
+	float time = 0;
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		//glUniform2f(glGetUniformLocation(shaderProgram, "additional"), render.x, (i % 8) * render.y);
+		if (glfwGetTime() > time) {
+			glUniform2f(glGetUniformLocation(shaderProgram, "additional"), (i % 8) * 128.0f / spriteWidth, 0);
+			i++;
+			time += 0.1f;
+		}
 
+
+		LOG(glfwGetTime());
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 
 		/* Poll for and process events */
 		glfwPollEvents();
+
 	}
 
 	glfwTerminate();
