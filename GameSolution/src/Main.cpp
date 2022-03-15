@@ -107,7 +107,7 @@ static void loadSprite() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load and generate the texture
 
-	unsigned char* data = stbi_load("Resources/Bilder/Katze.png", &spriteWidth, &spriteHeight, &nrChannels, 4);
+	unsigned char* data = stbi_load("Resources/Bilder/KatzeAnimation.png", &spriteWidth, &spriteHeight, &nrChannels, 4);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, spriteWidth, spriteHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -142,7 +142,7 @@ int main(void)
 		std::cout << "error" << std::endl;
 	}
 	loadSprite();
-	float height = 72.0f, width = 128.0f;
+	float height = 63.0f, width = 63.0f;
 	//sicher gehen das es funktioniert hier der Code der später in Klassen aufgeteilt wird
 	float rectAngle[4 * 4] = {
 		0.2f, 0.2f,	  width / spriteWidth, 1.0f,//oben rechts
@@ -189,13 +189,12 @@ int main(void)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		//glUniform2f(glGetUniformLocation(shaderProgram, "additional"), render.x, (i % 8) * render.y);
 		if (glfwGetTime() > time) {
-			glUniform2f(glGetUniformLocation(shaderProgram, "additional"), (i % 8) * 128.0f / spriteWidth, 0);
+			glUniform2f(glGetUniformLocation(shaderProgram, "additional"), (((i % 5)) * 63.0f + 1.0f) / spriteWidth, 0);
 			i++;
-			time += 0.1f;
+			time += 0.2f;
 		}
 
 
-		LOG(glfwGetTime());
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 
