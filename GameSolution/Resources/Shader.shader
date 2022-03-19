@@ -8,11 +8,11 @@ out vec2 textCoords;
 //uniform mat4 scale;
 //uniform vec2 move;
 //uniform mat4 rotation;
-uniform vec2 additional;
+uniform vec2 shift;
 
 void main()
 {
-	textCoords = vec2(aTextCoords.x + additional.x, aTextCoords.y);
+	textCoords = vec2(aTextCoords.x + shift.x, aTextCoords.y + shift.y);
 	//vec4 varTest = scale * rotation * vec4(aPos.x, aPos.y, 0.0, 1.0);
 	gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0);
 	//gl_Position = scale * vec4(aPos.x + move.x, aPos.y + move.y, 0.0f, 1.0f);

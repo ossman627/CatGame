@@ -6,13 +6,32 @@
 #include <fstream>
 #include "header/stb_image.h"
 
+#include "header/Shader.h"
+
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define ASSERT(x) if(!(x)) __debugbreak();
+#define GLCall(x) GLClearError();\
+     x;\
+     ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
+
 
 static unsigned int texturBuffer;
 static int spriteHeight, spriteWidth, nrChannels;
+
+static void GLClearError() {
+	while (glGetError != GL_NO_ERROR);
+}
+
+static bool GLLogCall(const char* function, const char* file, int line) {
+
+	while (GLenum error = glGetError()) {
+		std::cout << "[OpenGL ERROR] {" << error << "} " << function << " " << file << ":" << line << std::endl;
+	}
+}
 
 template<typename T>
 static void LOG(T value) {
@@ -173,10 +192,10 @@ int main(void)
 	/* Make the window's context current */
 
 
-	unsigned int shaderProgram = createShader("#defaultVertexShader", "#defaultFragmentShader");
-	glUseProgram(shaderProgram);
-	glUniform1i(glGetUniformLocation(shaderProgram, "ourTexture"), 0);
-	glActiveTexture(GL_TEXTURE0);
+	Shader shader("Resources/Shader.shader", "#defaultVertexShader", "#defaultFragmentShader");
+	shader.bind();
+	shader.setUniform1i("ourTexture", 0);
+	shader.activateTexture(GL_TEXTURE0);
 	/* Loop until the user closes the window */
 	glm::vec2 render(0, width);
 	int i = 0;
@@ -189,7 +208,7 @@ int main(void)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		//glUniform2f(glGetUniformLocation(shaderProgram, "additional"), render.x, (i % 8) * render.y);
 		if (glfwGetTime() > time) {
-			glUniform2f(glGetUniformLocation(shaderProgram, "additional"), (((i % 5)) * 63.0f + 1.0f) / spriteWidth, 0);
+			shader.setUniform2f("shift", (((i % 5)) * 63.0f + 1.0f) / spriteWidth, 0.0f);
 			i++;
 			time += 0.2f;
 		}
