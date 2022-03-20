@@ -7,6 +7,7 @@
 #include "header/stb_image.h"
 
 #include "header/Shader.h"
+#include "header/VertexBuffer.h"
 
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -23,20 +24,18 @@ static unsigned int texturBuffer;
 static int spriteHeight, spriteWidth, nrChannels;
 
 static void GLClearError() {
-	while (glGetError != GL_NO_ERROR);
+	while (glGetError() != GL_NO_ERROR);
 }
 
 static bool GLLogCall(const char* function, const char* file, int line) {
 
 	while (GLenum error = glGetError()) {
 		std::cout << "[OpenGL ERROR] {" << error << "} " << function << " " << file << ":" << line << std::endl;
+		return false;
 	}
+	return true;
 }
 
-template<typename T>
-static void LOG(T value) {
-	std::cout << value << std::endl;
-}
 
 static std::string getShaderSource(std::fstream& file) {
 	std::string source = "";
@@ -174,11 +173,12 @@ int main(void)
 		0, 1, 2,
 		0, 2, 3
 	};
-	unsigned int VB, IB, VA;
+	unsigned int IB, VA;
 
-	glGenBuffers(1, &VB);
-	glBindBuffer(GL_ARRAY_BUFFER, VB);
-	glBufferData(GL_ARRAY_BUFFER, 4 * 4 * sizeof(float), rectAngle, GL_STATIC_DRAW);
+	VertexBuffer vertexBuffer;
+	vertexBuffer.bind();
+	vertexBuffer.setBufferSize(16);
+	vertexBuffer.addData(16, rectAngle);
 
 	glGenBuffers(1, &IB);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
@@ -224,4 +224,5 @@ int main(void)
 
 	glfwTerminate();
 	return 0;
+
 }

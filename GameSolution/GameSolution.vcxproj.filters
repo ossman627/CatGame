@@ -27,6 +27,12 @@
     <ClCompile Include="Dependencies\glm\detail\glm.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\Debugger.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\VertexBuffer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader.shader" />
@@ -1311,6 +1317,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Dependencies\glm\vector_relational.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\VertexBuffer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\Debugger.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
