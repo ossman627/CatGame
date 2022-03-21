@@ -7,7 +7,8 @@
 #include "header/stb_image.h"
 
 #include "header/Shader.h"
-#include "header/VertexBuffer.h"
+#include "header/Buffer.h"
+#include "header/BufferArray.h"
 
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -23,96 +24,7 @@
 static unsigned int texturBuffer;
 static int spriteHeight, spriteWidth, nrChannels;
 
-static void GLClearError() {
-	while (glGetError() != GL_NO_ERROR);
-}
 
-static bool GLLogCall(const char* function, const char* file, int line) {
-
-	while (GLenum error = glGetError()) {
-		std::cout << "[OpenGL ERROR] {" << error << "} " << function << " " << file << ":" << line << std::endl;
-		return false;
-	}
-	return true;
-}
-
-
-static std::string getShaderSource(std::fstream& file) {
-	std::string source = "";
-	std::string line;
-
-	while (true) {					//Endlos schleife, wird von break beendet
-		std::getline(file, line);
-		if (line == "#Ende") {
-			break;
-		}
-		source += line + "\n";
-	}
-	return source;
-
-}
-
-static std::string findAndGetShaderSource(const char* shaderType) {
-	std::string source = "";
-	std::string line;
-	bool finish = false;
-	std::fstream shaderFile("Resources/Shader.shader", std::ifstream::in);
-
-	while (!shaderFile.eof() && finish == false) {
-		std::getline(shaderFile, line);
-		if (std::strcmp(line.c_str(), shaderType) == 0) {
-			source = getShaderSource(shaderFile);
-			finish = true;
-		}
-	}
-
-	return source;
-}
-
-static unsigned int compileShader(unsigned int type, const char* typeOfSource)
-{
-	unsigned int shaderId = glCreateShader(type);
-
-	//In 2 Schritten: 1)Source in String speichern, 2) Dan in Char umwandeln.
-	//findAndGetShaderSource(typeOfSource).c_str(); verursacht fehler
-	std::string tempSource = (findAndGetShaderSource(typeOfSource));
-	const char* source = tempSource.c_str();
-	glShaderSource(shaderId, 1, &source, nullptr);
-	glCompileShader(shaderId);
-
-	//Fehler handling
-	int result;
-	glGetShaderiv(shaderId, GL_COMPILE_STATUS, &result);
-	if (result == GL_FALSE) {
-		int length;
-		glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &length);
-		char* message = (char*)alloca(length * sizeof(char));
-		glGetShaderInfoLog(shaderId, length, &length, message);
-
-		std::cout << "Failed to compile" << (type == GL_VERTEX_SHADER ? "Vertex" : "fragment") << std::endl;
-		std::cout << message << std::endl;
-		glDeleteShader(shaderId);
-		return 0;
-	}
-	return shaderId;
-}
-
-static unsigned int createShader(const char* vertexShaderType, const char* fragmentShaderType)
-{
-	unsigned int program = glCreateProgram();
-	unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderType);
-	unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderType);
-
-	glAttachShader(program, vertexShader);
-	glAttachShader(program, fragmentShader);
-	glLinkProgram(program);
-	glValidateProgram(program);
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	return program;
-}
 
 static void loadSprite() {
 	stbi_set_flip_vertically_on_load(1);
@@ -173,23 +85,25 @@ int main(void)
 		0, 1, 2,
 		0, 2, 3
 	};
-	unsigned int IB, VA;
 
-	VertexBuffer vertexBuffer;
+	Buffer vertexBuffer(GL_ARRAY_BUFFER);
 	vertexBuffer.bind();
-	vertexBuffer.setBufferSize(16);
-	vertexBuffer.addData(16, rectAngle);
+	vertexBuffer.setBufferSizeF(16);
+	vertexBuffer.addDataF(16, rectAngle);
 
-	glGenBuffers(1, &IB);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 2 * 3 * sizeof(float), indexArray, GL_STATIC_DRAW);
+	Buffer indexBuffer(GL_ELEMENT_ARRAY_BUFFER);
+	indexBuffer.bind();
+	indexBuffer.setBufferSizeUI(6);
+	indexBuffer.addDataUI(6, indexArray);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-	/* Make the window's context current */
+	BufferArray bufferArray;
+	bufferArray.addLayoutF(0, 2, 4, 0);
+	bufferArray.addLayoutF(1, 2, 4, 2);
+	bufferArray.aktivateAllLayouts();
+
+
+
 
 
 	Shader shader("Resources/Shader.shader", "#defaultVertexShader", "#defaultFragmentShader");

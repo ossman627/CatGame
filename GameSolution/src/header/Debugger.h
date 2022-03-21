@@ -13,6 +13,7 @@
 void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
 
+//Alle möglichen Werte sollen ausgegeben werden
 template<typename T>
 inline void LOG(T value) {
 	std::cout << value << std::endl;

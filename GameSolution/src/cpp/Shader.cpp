@@ -80,7 +80,7 @@ std::string Shader::findAndGetShaderSource(const char* shaderType) {
 	std::string source = "";
 	std::string line;
 	bool finish = false;
-	std::fstream shaderFile("Resources/Shader.shader", std::ifstream::in);
+	std::fstream shaderFile(path, std::ifstream::in);
 
 	while (!shaderFile.eof() && finish == false) {
 		std::getline(shaderFile, line);

@@ -30,7 +30,10 @@
     <ClCompile Include="src\cpp\Debugger.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\VertexBuffer.cpp">
+    <ClCompile Include="src\cpp\Buffer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\BufferArray.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1319,10 +1322,13 @@
     <ClInclude Include="Dependencies\glm\vector_relational.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\header\VertexBuffer.h">
+    <ClInclude Include="src\header\Debugger.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\header\Debugger.h">
+    <ClInclude Include="src\header\Buffer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\BufferArray.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

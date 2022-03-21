@@ -8,11 +8,18 @@
 class Shader {
 private:
 	unsigned int shaderID;
-	char* path;
+	char* path;				//Pfad zum Shadercode
 
+	//Gibt den den Code des Shaders zurück
 	std::string getShaderSource(std::fstream& file);
+
+	//Findet den Code des Shaders in der Datei und gibt den Code zurück
 	std::string findAndGetShaderSource(const char* shaderType);
+
+	//Compiliert den Shadercode
 	unsigned int compileShader(unsigned int type, const char* typeOfSource);
+
+	//Erstellt einen Shader
 	unsigned int createShader(const char* vertexShaderType, const char* fragmentShaderType);
 
 

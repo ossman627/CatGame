@@ -154,10 +154,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Dependencies\glm\detail\glm.cpp" />
+    <ClCompile Include="src\cpp\BufferArray.cpp" />
     <ClCompile Include="src\cpp\Debugger.cpp" />
     <ClCompile Include="src\cpp\Shader.cpp" />
     <ClCompile Include="src\cpp\std_image.cpp" />
-    <ClCompile Include="src\cpp\VertexBuffer.cpp" />
+    <ClCompile Include="src\cpp\Buffer.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -589,10 +590,11 @@
     <ClInclude Include="Dependencies\glm\vec3.hpp" />
     <ClInclude Include="Dependencies\glm\vec4.hpp" />
     <ClInclude Include="Dependencies\glm\vector_relational.hpp" />
+    <ClInclude Include="src\header\BufferArray.h" />
     <ClInclude Include="src\header\Debugger.h" />
     <ClInclude Include="src\header\Shader.h" />
     <ClInclude Include="src\header\stb_image.h" />
-    <ClInclude Include="src\header\VertexBuffer.h" />
+    <ClInclude Include="src\header\Buffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
