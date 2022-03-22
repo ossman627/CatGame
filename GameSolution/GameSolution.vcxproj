@@ -159,6 +159,7 @@
     <ClCompile Include="src\cpp\Shader.cpp" />
     <ClCompile Include="src\cpp\std_image.cpp" />
     <ClCompile Include="src\cpp\Buffer.cpp" />
+    <ClCompile Include="src\cpp\Texture.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -595,6 +596,7 @@
     <ClInclude Include="src\header\Shader.h" />
     <ClInclude Include="src\header\stb_image.h" />
     <ClInclude Include="src\header\Buffer.h" />
+    <ClInclude Include="src\header\Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+#include "Debugger.h"
+
 class Shader {
 private:
 	unsigned int shaderID;
@@ -29,7 +31,6 @@ public:
 
 	void setUniform2f(const char* uniform, float v1, float v2);
 	void setUniform1i(const char* uniform, int v1);
-	void activateTexture(int v1);
 
 	void bind();
 	void unbind();

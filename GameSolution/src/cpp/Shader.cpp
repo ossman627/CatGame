@@ -35,16 +35,13 @@ void Shader::setUniform1i(const char* uniform, int v1) {
 	glUniform1i(glGetUniformLocation(shaderID, uniform), v1);
 }
 
-void Shader::activateTexture(int v1) {
-	glActiveTexture(v1);
-}
 
 void Shader::bind() {
-	glUseProgram(shaderID);
+	GLCall(glUseProgram(shaderID));
 }
 
 void Shader::unbind() {
-	glUseProgram(0);
+	GLCall(glUseProgram(0));
 }
 
 

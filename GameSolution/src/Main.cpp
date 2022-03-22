@@ -9,6 +9,7 @@
 #include "header/Shader.h"
 #include "header/Buffer.h"
 #include "header/BufferArray.h"
+#include "header/Texture.h"
 
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -71,13 +72,23 @@ int main(void)
 	if (glewInit() != GLEW_OK) {
 		std::cout << "error" << std::endl;
 	}
-	loadSprite();
+	//loadSprite();
 	float height = 63.0f, width = 63.0f;
 	//sicher gehen das es funktioniert hier der Code der später in Klassen aufgeteilt wird
+
+	Shader shader("Resources/Shader.shader", "#defaultVertexShader", "#defaultFragmentShader");
+	shader.bind();
+
+	Texture texture("Resources/Bilder/KatzeAnimation.png", 0);
+
+	shader.setUniform1i("ourTexture", 0);
+	//GLCall(glActiveTexture(GL_TEXTURE2));
+	//glBindTexture(GL_TEXTURE_2D, texturBuffer);
+	texture.bind();
 	float rectAngle[4 * 4] = {
-		0.2f, 0.2f,	  width / spriteWidth, 1.0f,//oben rechts
-		0.2f, -0.2f,  width / spriteWidth, (spriteHeight - height) / spriteHeight,//unten rechts
-		-0.2f, -0.2f, 0.0f, (spriteHeight - height) / spriteHeight,//unten links
+		0.2f, 0.2f,	  width / texture.getTextureWidth(), 1.0f,//oben rechts
+		0.2f, -0.2f,  width / texture.getTextureWidth(), (texture.getTextureHeight() - height) / texture.getTextureHeight(),//unten rechts
+		-0.2f, -0.2f, 0.0f, (texture.getTextureHeight() - height) / texture.getTextureHeight(),//unten links
 		-0.2f, 0.2f,  0.0f, 1.0f//oben Links
 	};
 
@@ -103,13 +114,6 @@ int main(void)
 	bufferArray.aktivateAllLayouts();
 
 
-
-
-
-	Shader shader("Resources/Shader.shader", "#defaultVertexShader", "#defaultFragmentShader");
-	shader.bind();
-	shader.setUniform1i("ourTexture", 0);
-	shader.activateTexture(GL_TEXTURE0);
 	/* Loop until the user closes the window */
 	glm::vec2 render(0, width);
 	int i = 0;
@@ -122,7 +126,7 @@ int main(void)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		//glUniform2f(glGetUniformLocation(shaderProgram, "additional"), render.x, (i % 8) * render.y);
 		if (glfwGetTime() > time) {
-			shader.setUniform2f("shift", (((i % 5)) * 63.0f + 1.0f) / spriteWidth, 0.0f);
+			shader.setUniform2f("shift", (((i % 5)) * 63.0f + 1.0f) / 1600, 0.0f);
 			i++;
 			time += 0.2f;
 		}
