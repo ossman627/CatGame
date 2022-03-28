@@ -3,28 +3,32 @@
 #include <GLFW/glfw3.h>
 
 #include "Debugger.h"
+#include <glm/glm.hpp>
 #include <iostream>
+
+
+struct Coordinates {
+	glm::vec2 position;
+	glm::vec2 textCoords;
+};
+
 
 class Texture {
 private:
-	char* path;					//Pfad zur texture
-	int slot;					//Slot zur Bindung der Texture
-	int textureHeight;			//Höhe der ganzen Texture
-	int textureWidth;			//Breite der ganzen Texture
-	int nrChannels;				//?
-	unsigned int textureID;		//TextureID
+
+	float textureHeight;			//Höhe der ganzen Texture
+	float textureWidth;				//Breite der ganzen Texture
+	char* name;
+
 
 public:
-	Texture(const char* path, int slot);
+	Texture(const float textureHeight, const float textureWidth, const char* name);
+	Texture();
 	~Texture();
 
-	void loadTexture(const char* path);
-	void bind();
-	void unbind();
-	void activateTexture();
+	float getTextureHeight() const;
+	float getTextureWidth() const;
 
-	int getSlot() const;
-	int getTextureHeight() const;
-	int getTextureWidth() const;
+	char* getName() const;
 
 };

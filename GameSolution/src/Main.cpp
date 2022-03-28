@@ -10,45 +10,12 @@
 #include "header/Buffer.h"
 #include "header/BufferArray.h"
 #include "header/Texture.h"
+#include "header/Sprite.h"
+#include "header/Charakter.h"
 
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-#define ASSERT(x) if(!(x)) __debugbreak();
-#define GLCall(x) GLClearError();\
-     x;\
-     ASSERT(GLLogCall(#x, __FILE__, __LINE__))
-
-
-
-static unsigned int texturBuffer;
-static int spriteHeight, spriteWidth, nrChannels;
-
-
-
-static void loadSprite() {
-	stbi_set_flip_vertically_on_load(1);
-	glGenTextures(1, &texturBuffer);
-	glBindTexture(GL_TEXTURE_2D, texturBuffer);
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// load and generate the texture
-
-	unsigned char* data = stbi_load("Resources/Bilder/KatzeAnimation.png", &spriteWidth, &spriteHeight, &nrChannels, 4);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, spriteWidth, spriteHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	}
-	else
-	{
-		std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);
-}
 
 int main(void)
 {
@@ -72,47 +39,41 @@ int main(void)
 	if (glewInit() != GLEW_OK) {
 		std::cout << "error" << std::endl;
 	}
-	//loadSprite();
+
 	float height = 63.0f, width = 63.0f;
 	//sicher gehen das es funktioniert hier der Code der später in Klassen aufgeteilt wird
 
 	Shader shader("Resources/Shader.shader", "#defaultVertexShader", "#defaultFragmentShader");
 	shader.bind();
 
-	Texture texture("Resources/Bilder/KatzeAnimation.png", 0);
+	Sprite sprite("Resources/Bilder/KatzeAnimation.png", 0);
 
-	shader.setUniform1i("ourTexture", 0);
-	//GLCall(glActiveTexture(GL_TEXTURE2));
-	//glBindTexture(GL_TEXTURE_2D, texturBuffer);
-	texture.bind();
-	float rectAngle[4 * 4] = {
-		0.2f, 0.2f,	  width / texture.getTextureWidth(), 1.0f,//oben rechts
-		0.2f, -0.2f,  width / texture.getTextureWidth(), (texture.getTextureHeight() - height) / texture.getTextureHeight(),//unten rechts
-		-0.2f, -0.2f, 0.0f, (texture.getTextureHeight() - height) / texture.getTextureHeight(),//unten links
-		-0.2f, 0.2f,  0.0f, 1.0f//oben Links
-	};
+	shader.setUniform1i("ourTexture", sprite.getSlot());
+
+	sprite.bind();
+
+	Charakter cat(sprite);
 
 	unsigned int indexArray[2 * 3] = {
 		0, 1, 2,
-		0, 2, 3
+		1, 2, 3
 	};
 
 	Buffer vertexBuffer(GL_ARRAY_BUFFER);
 	vertexBuffer.bind();
-	vertexBuffer.setBufferSizeF(16);
-	vertexBuffer.addDataF(16, rectAngle);
+	vertexBuffer.setBufferSizeF(cat.getDataSize());
+	vertexBuffer.addDataF(cat.getDataSize(), cat.getData());
 
 	Buffer indexBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	indexBuffer.bind();
-	indexBuffer.setBufferSizeUI(6);
-	indexBuffer.addDataUI(6, indexArray);
+	indexBuffer.setBufferSizeUI(cat.getIndexDataSize());
+	indexBuffer.addDataUI(cat.getIndexDataSize(), const_cast<unsigned int*>(cat.getIndexData()));
 
 
 	BufferArray bufferArray;
 	bufferArray.addLayoutF(0, 2, 4, 0);
 	bufferArray.addLayoutF(1, 2, 4, 2);
 	bufferArray.aktivateAllLayouts();
-
 
 	/* Loop until the user closes the window */
 	glm::vec2 render(0, width);
@@ -124,9 +85,8 @@ int main(void)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-		//glUniform2f(glGetUniformLocation(shaderProgram, "additional"), render.x, (i % 8) * render.y);
 		if (glfwGetTime() > time) {
-			shader.setUniform2f("shift", (((i % 5)) * 63.0f + 1.0f) / 1600, 0.0f);
+			shader.setUniform2f("shift", (((i % 5)) * 63.0f) / 1600.0f, 0.0f);
 			i++;
 			time += 0.2f;
 		}

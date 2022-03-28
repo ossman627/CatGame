@@ -155,8 +155,10 @@
   <ItemGroup>
     <ClCompile Include="Dependencies\glm\detail\glm.cpp" />
     <ClCompile Include="src\cpp\BufferArray.cpp" />
+    <ClCompile Include="src\cpp\Charakter.cpp" />
     <ClCompile Include="src\cpp\Debugger.cpp" />
     <ClCompile Include="src\cpp\Shader.cpp" />
+    <ClCompile Include="src\cpp\Sprite.cpp" />
     <ClCompile Include="src\cpp\std_image.cpp" />
     <ClCompile Include="src\cpp\Buffer.cpp" />
     <ClCompile Include="src\cpp\Texture.cpp" />
@@ -592,8 +594,10 @@
     <ClInclude Include="Dependencies\glm\vec4.hpp" />
     <ClInclude Include="Dependencies\glm\vector_relational.hpp" />
     <ClInclude Include="src\header\BufferArray.h" />
+    <ClInclude Include="src\header\Charakter.h" />
     <ClInclude Include="src\header\Debugger.h" />
     <ClInclude Include="src\header\Shader.h" />
+    <ClInclude Include="src\header\Sprite.h" />
     <ClInclude Include="src\header\stb_image.h" />
     <ClInclude Include="src\header\Buffer.h" />
     <ClInclude Include="src\header\Texture.h" />
