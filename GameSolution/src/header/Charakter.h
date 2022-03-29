@@ -11,14 +11,14 @@
 
 class Charakter {
 private:
-	Texture cat;								//Default Charakter als Texture
-	Sprite spriteOfCat;							//Sprite muss übergeben werden, um auf deren Variablen zuzugreifen
-	float velocity;								//Geschwindigkeit der Katze
+	Texture* texture;								//Default Charakter als Texture
+	Sprite* spriteOfCat;							//Sprite muss übergeben werden, um auf deren Variablen zuzugreifen
+	float velocity;									//Geschwindigkeit der Katze
 
-	static const int dataLength = 16;			//Datengröße
-	static const int indexDataLength = 6;		//Index datengröße
+	static const int dataLength = 16;				//Datengröße
+	static const int indexDataLength = 6;			//Index datengröße
 
-	float data[dataLength];						//Daten zum rendern
+	float data[dataLength];							//Daten zum rendern
 
 	//wird jetzt schon gefüllt, da es sich nicht
 	//ändert oder angepasst werden muss
@@ -28,7 +28,8 @@ private:
 	void initData();							//Daten erzeugen und in der liste speichern
 
 public:
-	Charakter(Sprite sprite);
+	Charakter();
+	Charakter(Sprite& sprite);
 	~Charakter();
 
 	float* getData();											//Daten zurück geben

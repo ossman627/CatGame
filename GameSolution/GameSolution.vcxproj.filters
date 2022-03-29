@@ -45,6 +45,9 @@
     <ClCompile Include="src\cpp\Sprite.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\Game.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader.shader" />
@@ -1347,6 +1350,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\header\Sprite.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\Game.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

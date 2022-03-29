@@ -1,5 +1,9 @@
 #include "../header/Buffer.h"
 
+Buffer::Buffer() {
+
+}
+
 Buffer::Buffer(unsigned int bufferType) :offset(0), bufferSize(0) {
 	GLCall(glGenBuffers(1, &bufferID));
 	this->bufferType = bufferType;

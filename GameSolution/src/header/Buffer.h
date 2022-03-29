@@ -14,6 +14,7 @@ private:
 	unsigned int bufferType;						//Type in sinne von GL_ARRAY_BUFFER oder GL_ELEMENT_ARRAY_BUFFER
 
 public:
+	Buffer();
 	Buffer(unsigned int bufferType);
 	~Buffer();
 

@@ -15,6 +15,16 @@ Texture::~Texture() {
 	//Empty
 }
 
+Texture& Texture::operator=(Texture& other) {
+
+	textureHeight = other.textureHeight;
+	textureWidth = other.textureWidth;
+	name = other.name;
+
+	return *this;
+
+}
+
 float Texture::getTextureHeight() const {
 	return textureHeight;
 }

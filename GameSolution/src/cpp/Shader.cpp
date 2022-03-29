@@ -1,5 +1,10 @@
 #include "../header/Shader.h"
 
+
+Shader::Shader() {
+
+}
+
 Shader::Shader(const char* path, const char* vertexShaderType, const char* fragmentShaderType) {
 	this->path = (char*)path;
 
@@ -8,6 +13,12 @@ Shader::Shader(const char* path, const char* vertexShaderType, const char* fragm
 
 Shader::~Shader() {
 
+}
+
+Shader& Shader::operator=(Shader& other) {
+	shaderID = other.shaderID;
+	path = other.path;
+	return *this;
 }
 
 unsigned int Shader::createShader(const char* vertexShaderType, const char* fragmentShaderType) {

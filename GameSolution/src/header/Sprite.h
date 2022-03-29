@@ -11,15 +11,21 @@ class Sprite {
 private:
 	char* path;					//Pfad zur texture
 	int slot;					//Slot zur Bindung der Texture
-	int SpriteHeight;			//Höhe der ganzen Texture
-	int SpriteWidth;			//Breite der ganzen Texture
+	int spriteHeight;			//Höhe der ganzen Texture
+	int spriteWidth;			//Breite der ganzen Texture
 	int nrChannels;				//?
-	unsigned int SpriteID;		//TextureID
+	unsigned int spriteID;		//TextureID
+
+	void swap(Sprite& first, Sprite& second);
 
 public:
 	Sprite(const char* path, int slot);
 	Sprite();
 	~Sprite();
+	Sprite(Sprite& other);
+	Sprite(Sprite&& other);
+
+	Sprite& operator=(Sprite& other);
 
 	void loadSprite(const char* path);
 	void bind();

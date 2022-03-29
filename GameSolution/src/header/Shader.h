@@ -26,8 +26,10 @@ private:
 
 
 public:
+	Shader();
 	Shader(const char* path, const char* vertexShaderType, const char* fragmentShaderType);
 	~Shader();
+	Shader& operator=(Shader& other);
 
 	void setUniform2f(const char* uniform, float v1, float v2);
 	void setUniform1i(const char* uniform, int v1);

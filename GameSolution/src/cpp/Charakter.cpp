@@ -1,12 +1,19 @@
 #include "../header/Charakter.h"
 
 
-Charakter::Charakter(Sprite sprite) : spriteOfCat(sprite) {
-	cat = { 63.0f, 63.0f, "Katze" };
+
+Charakter::Charakter() {
+
+}
+
+Charakter::Charakter(Sprite& sprite) {
+	texture = new Texture(63.0f, 63.0f, "Katze");
+	spriteOfCat = &sprite;
 	initData();						//Daten füllen
 }
 Charakter::~Charakter() {
-	//empty
+	delete texture;
+	spriteOfCat = nullptr;
 }
 
 float* Charakter::getData() {
@@ -47,16 +54,16 @@ void Charakter::initData() {
 
 	//unten links
 	coordinates[1].position = { x, y - size };
-	coordinates[1].textCoords = { 0.0f, (spriteOfCat.getSpriteHeight() - cat.getTextureHeight()) / spriteOfCat.getSpriteHeight() };
+	coordinates[1].textCoords = { 0.0f, (spriteOfCat->getSpriteHeight() - texture->getTextureHeight()) / spriteOfCat->getSpriteHeight() };
 
 	//obenrechts
 	coordinates[2].position = { x + size, y };
-	coordinates[2].textCoords = { cat.getTextureWidth() / spriteOfCat.getSpriteWidth(), 1.0f };
+	coordinates[2].textCoords = { texture->getTextureWidth() / spriteOfCat->getSpriteWidth(), 1.0f };
 
 	//untenrechts
 	coordinates[3].position = { x + size, y - size };
-	coordinates[3].textCoords = { cat.getTextureWidth() / spriteOfCat.getSpriteWidth(),
-								(spriteOfCat.getSpriteHeight() - cat.getTextureHeight()) / spriteOfCat.getSpriteHeight() };
+	coordinates[3].textCoords = { texture->getTextureWidth() / spriteOfCat->getSpriteWidth(),
+								(spriteOfCat->getSpriteHeight() - texture->getTextureHeight()) / spriteOfCat->getSpriteHeight() };
 
 	//Daten Füllen
 	for (int i = 0; i < dataLength / coordSamples; i++) {
